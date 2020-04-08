@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 7, 2020 3:30:07 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1586266207161</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Apr 8, 2020 1:45:34 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1586303134412</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/media/piko/SeagateBackupPlusDrive/intelFPGA_lite/19.1/cordic_lab/software/bsp</BspGeneratedLocation>
         <BspSettingsFile>./settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../nios_cordic_system.sopcinfo</SopcDesignFile>
@@ -905,20 +905,44 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>angle_in</slaveDescriptor>
+                <slaveDescriptor>elipse_y_out</slaveDescriptor>
                 <addressRange>0x00021000 - 0x0002100F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>elipse_x_out</slaveDescriptor>
+                <addressRange>0x00021010 - 0x0002101F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>elipse_b_in</slaveDescriptor>
+                <addressRange>0x00021020 - 0x0002102F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>elipse_a_in</slaveDescriptor>
+                <addressRange>0x00021030 - 0x0002103F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>angle_in</slaveDescriptor>
+                <addressRange>0x00021040 - 0x0002104F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart</slaveDescriptor>
-                <addressRange>0x00021010 - 0x00021017</addressRange>
+                <addressRange>0x00021050 - 0x00021057</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>cordic_pipeline_avalon_interface_0</slaveDescriptor>
-                <addressRange>0x00021018 - 0x0002101B</addressRange>
+                <addressRange>0x00021058 - 0x0002105B</addressRange>
                 <addressSpan>4</addressSpan>
                 <attributes/>
         </MemoryMap>

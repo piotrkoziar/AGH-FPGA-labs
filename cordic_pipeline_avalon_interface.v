@@ -7,15 +7,30 @@ output [31:0] readdata;
 // exporting contents outside of the embedded system
 output signed [31:0] sincos_export;
 output valid_export; 
-wire local_clockenable;
+wire [0:0] local_clockenable;
 wire signed [31:0] from_cordic;
-wire signed [11:0] to_cordic;
+reg signed [11:0] to_cordic;
 wire valid_out_cordic;
-assign to_cordic = (chipselect & write) ? writedata[11:0] : 12'b000000000000;
-assign local_clockenable = 1'd1; 
 
+assign local_clockenable = 1'd1; 
 assign from_cordic[15:12] = 1'b0;
 assign from_cordic[31:28] = 1'b0;
+
+initial
+begin
+to_cordic = 12'b000000000000;
+end
+
+
+// Register with angle_in value
+always @*
+begin 
+if (chipselect & write)
+begin
+to_cordic = writedata[11:0];
+end
+end
+
 
 cordic_pipeline_rtl cordic ( .clock(clock), 
 									  .reset(resetn), 

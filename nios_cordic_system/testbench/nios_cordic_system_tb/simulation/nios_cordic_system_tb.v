@@ -11,8 +11,12 @@ module nios_cordic_system_tb (
 	wire               nios_cordic_system_inst_cordic_external_connection_valid_out;            // nios_cordic_system_inst:cordic_external_connection_valid_out -> nios_cordic_system_inst_cordic_external_connection_bfm:sig_valid_out
 	wire signed [31:0] nios_cordic_system_inst_cordic_external_connection_sincos_out;           // nios_cordic_system_inst:cordic_external_connection_sincos_out -> nios_cordic_system_inst_cordic_external_connection_bfm:sig_sincos_out
 	wire               nios_cordic_system_inst_reset_bfm_reset_reset;                           // nios_cordic_system_inst_reset_bfm:reset -> nios_cordic_system_inst:reset_reset_n
+	wire signed [11:0] nios_cordic_system_inst_elipse_a_external_bfm_conduit_export;            // nios_cordic_system_inst_elipse_a_external_bfm:sig_export -> nios_cordic_system_inst:elipse_a_external_export
+	wire signed [11:0] nios_cordic_system_inst_elipse_b_external_bfm_conduit_export;            // nios_cordic_system_inst_elipse_b_external_bfm:sig_export -> nios_cordic_system_inst:elipse_b_external_export
+	wire signed [11:0] nios_cordic_system_inst_elipse_x_external_export;                        // nios_cordic_system_inst:elipse_x_external_export -> nios_cordic_system_inst_elipse_x_external_bfm:sig_export
+	wire signed [11:0] nios_cordic_system_inst_elipse_y_external_export;                        // nios_cordic_system_inst:elipse_y_external_export -> nios_cordic_system_inst_elipse_y_external_bfm:sig_export
 
-	real r_sin, r_cos;
+	real r_sin, r_cos, r_x, r_y;
 	// Put sin and cos as real values
 	always @*
 	begin
@@ -20,22 +24,32 @@ module nios_cordic_system_tb (
 	r_cos = $signed(nios_cordic_system_inst_cordic_external_connection_sincos_out[27:16]);
 	r_sin = r_sin / 1024;
 	r_cos = r_cos / 1024;
+
+	r_x = $signed(nios_cordic_system_inst_elipse_x_external_export);
+	r_y = $signed(nios_cordic_system_inst_elipse_y_external_export);
+	r_x = r_x / 1024;
+	r_y = r_y / 1024;
+	$display("Coordinates of the elipse: x=%f, y=%f", r_x, r_y);
 	end
 
-	real r_angle = 1024*3.14*1;
+	real r_angle = 1024*3.14*0.5;
 	assign nios_cordic_system_inst_angle_in_external_connection_bfm_conduit_export = r_angle;
+
+	assign nios_cordic_system_inst_elipse_a_external_bfm_conduit_export = 12'b000000000111; // 7
+   assign nios_cordic_system_inst_elipse_b_external_bfm_conduit_export = 12'b000000000011; // 3
+
 
 	nios_cordic_system nios_cordic_system_inst (
 		.angle_in_external_connection_export   (nios_cordic_system_inst_angle_in_external_connection_bfm_conduit_export), // angle_in_external_connection.export
 		.clk_clk                               (nios_cordic_system_inst_clk_bfm_clk_clk),                                 //                          clk.clk
 		.cordic_external_connection_sincos_out (nios_cordic_system_inst_cordic_external_connection_sincos_out),           //   cordic_external_connection.sincos_out
 		.cordic_external_connection_valid_out  (nios_cordic_system_inst_cordic_external_connection_valid_out),            //                             .valid_out
+		.elipse_a_external_export              (nios_cordic_system_inst_elipse_a_external_bfm_conduit_export),            //            elipse_a_external.export
+		.elipse_b_external_export              (nios_cordic_system_inst_elipse_b_external_bfm_conduit_export),            //            elipse_b_external.export
+		.elipse_x_external_export              (nios_cordic_system_inst_elipse_x_external_export),                        //            elipse_x_external.export
+		.elipse_y_external_export              (nios_cordic_system_inst_elipse_y_external_export),                        //            elipse_y_external.export
 		.reset_reset_n                         (nios_cordic_system_inst_reset_bfm_reset_reset)                            //                        reset.reset_n
 	);
-
-//	altera_conduit_bfm nios_cordic_system_inst_angle_in_external_connection_bfm (
-//		.sig_export (nios_cordic_system_inst_angle_in_external_connection_bfm_conduit_export)  // conduit.export
-//	);
 
 	altera_avalon_clock_source #(
 		.CLOCK_RATE (50000000),
@@ -49,6 +63,14 @@ module nios_cordic_system_tb (
 		.sig_sincos_out (nios_cordic_system_inst_cordic_external_connection_sincos_out), // conduit.sincos_out
 		.sig_valid_out  (nios_cordic_system_inst_cordic_external_connection_valid_out),  //        .valid_out
 		.reset          (1'b0)                                                           // (terminated)
+	);
+
+	altera_conduit_bfm_0003 nios_cordic_system_inst_elipse_x_external_bfm (
+		.sig_export (nios_cordic_system_inst_elipse_x_external_export)  // conduit.export
+	);
+
+	altera_conduit_bfm_0003 nios_cordic_system_inst_elipse_y_external_bfm (
+		.sig_export (nios_cordic_system_inst_elipse_y_external_export)  // conduit.export
 	);
 
 	altera_avalon_reset_source #(
