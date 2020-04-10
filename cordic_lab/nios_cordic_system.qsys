@@ -237,7 +237,7 @@
   <parameter name="enPRInitMode" value="false" />
   <parameter name="enableDiffWidth" value="false" />
   <parameter name="initMemContent" value="true" />
-  <parameter name="initializationFileName">/media/piko/SeagateBackupPlusDrive/intelFPGA_lite/19.1/cordic_lab/software/Application_Cordic/mem_init/nios_cordic_system_RAM.hex</parameter>
+  <parameter name="initializationFileName">/media/piko/SeagateBackupPlusDrive/intelFPGA_lite/19.1/AGH-FPGA-labs/cordic_lab/software/Application_Cordic/mem_init/nios_cordic_system_RAM.hex</parameter>
   <parameter name="instanceID" value="NONE" />
   <parameter name="memorySize" value="40960" />
   <parameter name="readDuringWriteMode" value="DONT_CARE" />
