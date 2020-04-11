@@ -35,8 +35,8 @@ module nios_cordic_system_tb (
 	real r_angle = 1024*3.14*0.5;
 	assign nios_cordic_system_inst_angle_in_external_connection_bfm_conduit_export = r_angle;
 	
-	real r_a = 7*1024;
-	real r_b = 3*1024;
+	real r_a = 7;
+	real r_b = 3;
 	assign nios_cordic_system_inst_elipse_a_external_bfm_conduit_export = r_a; // 7
    assign nios_cordic_system_inst_elipse_b_external_bfm_conduit_export = r_b; // 3
 	

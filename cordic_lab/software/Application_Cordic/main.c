@@ -10,11 +10,11 @@
  */
 
 int main() {
-  printf("HELLO FROM NIOS II PROCESSOR PROGRAM\n");
+  printf("HELLO FROM NIOS II PROCESSOR PROGRAM HELLO\n");
 
-  alt_32 angle_start  = 0x0000; //<- Start angle.
-  alt_u32 elipse_a    = 0x0000; //<- Elipse parameter a.
-  alt_u32 elipse_b    = 0x0000; //<- Elipse parameter b.
+  alt_u32 angle_start = 0x0000; //<- Start angle.
+  alt_32 elipse_a     = 0x0000; //<- Elipse parameter a.
+  alt_32 elipse_b     = 0x0000; //<- Elipse parameter b.
 
   // Get start angle value.
   angle_start = IORD_32DIRECT(ANGLE_IN_BASE, 0);
@@ -24,10 +24,10 @@ int main() {
    */
   alt_32 coord_x, coord_y;
 
-  const alt_32 angle_last  = PI_VAL * 2 * FXP_MUL;
-  const alt_32 angle_first = 0;
+  const alt_u32 angle_last  = PI_VAL * 2 * FXP_MUL;
+  const alt_u32 angle_first = 0;
 
-  alt_32 angle_cordic = angle_start;
+  alt_u32 angle_cordic = angle_start;
   alt_32 sincos, sin, cos;
 
   while(1) {
@@ -44,6 +44,15 @@ int main() {
     sincos = IORD_32DIRECT(CORDIC_PIPELINE_AVALON_INTERFACE_0_BASE, 0);
     sin = sincos         & 0xfff; // bits 0-11
     cos = (sincos >> 16) & 0xfff; // bits 16-27
+
+    // Extend MSB (to get proper signed value)
+    sin = (sin & (0x1 << 11)) ?
+          sin | (0xFFFFF << 12 ) :
+          sin;
+
+    cos = (cos & (0x1 << 11)) ?
+          cos | (0xFFFFF << 12 ) :
+          cos;
 
     coord_x = elipse_a * cos;
     coord_y = elipse_b * sin;
