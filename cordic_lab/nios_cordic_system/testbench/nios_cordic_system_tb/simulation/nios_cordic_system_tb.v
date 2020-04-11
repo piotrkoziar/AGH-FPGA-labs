@@ -11,10 +11,10 @@ module nios_cordic_system_tb (
 	wire               nios_cordic_system_inst_cordic_external_connection_valid_out;            // nios_cordic_system_inst:cordic_external_connection_valid_out -> nios_cordic_system_inst_cordic_external_connection_bfm:sig_valid_out
 	wire signed [31:0] nios_cordic_system_inst_cordic_external_connection_sincos_out;           // nios_cordic_system_inst:cordic_external_connection_sincos_out -> nios_cordic_system_inst_cordic_external_connection_bfm:sig_sincos_out
 	wire               nios_cordic_system_inst_reset_bfm_reset_reset;                           // nios_cordic_system_inst_reset_bfm:reset -> nios_cordic_system_inst:reset_reset_n
-	wire signed [11:0] nios_cordic_system_inst_elipse_a_external_bfm_conduit_export;            // nios_cordic_system_inst_elipse_a_external_bfm:sig_export -> nios_cordic_system_inst:elipse_a_external_export
-	wire signed [11:0] nios_cordic_system_inst_elipse_b_external_bfm_conduit_export;            // nios_cordic_system_inst_elipse_b_external_bfm:sig_export -> nios_cordic_system_inst:elipse_b_external_export
-	wire signed [11:0] nios_cordic_system_inst_elipse_x_external_export;                        // nios_cordic_system_inst:elipse_x_external_export -> nios_cordic_system_inst_elipse_x_external_bfm:sig_export
-	wire signed [11:0] nios_cordic_system_inst_elipse_y_external_export;                        // nios_cordic_system_inst:elipse_y_external_export -> nios_cordic_system_inst_elipse_y_external_bfm:sig_export
+	wire signed [31:0] nios_cordic_system_inst_elipse_a_external_bfm_conduit_export;            // nios_cordic_system_inst_elipse_a_external_bfm:sig_export -> nios_cordic_system_inst:elipse_a_external_export
+	wire signed [31:0] nios_cordic_system_inst_elipse_b_external_bfm_conduit_export;            // nios_cordic_system_inst_elipse_b_external_bfm:sig_export -> nios_cordic_system_inst:elipse_b_external_export
+	wire signed [31:0] nios_cordic_system_inst_elipse_x_external_export;                        // nios_cordic_system_inst:elipse_x_external_export -> nios_cordic_system_inst_elipse_x_external_bfm:sig_export
+	wire signed [31:0] nios_cordic_system_inst_elipse_y_external_export;                        // nios_cordic_system_inst:elipse_y_external_export -> nios_cordic_system_inst_elipse_y_external_bfm:sig_export
 
 	real r_sin, r_cos, r_x, r_y;
 	// Put sin and cos as real values
@@ -35,8 +35,8 @@ module nios_cordic_system_tb (
 	real r_angle = 1024*3.14*0.5;
 	assign nios_cordic_system_inst_angle_in_external_connection_bfm_conduit_export = r_angle;
 
-	assign nios_cordic_system_inst_elipse_a_external_bfm_conduit_export = 12'b000000000111; // 7
-   assign nios_cordic_system_inst_elipse_b_external_bfm_conduit_export = 12'b000000000011; // 3
+	assign nios_cordic_system_inst_elipse_a_external_bfm_conduit_export = 7*1024; // 7
+   assign nios_cordic_system_inst_elipse_b_external_bfm_conduit_export = 3*1024; // 3
 
 
 	nios_cordic_system nios_cordic_system_inst (

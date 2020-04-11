@@ -292,7 +292,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="12" />
+  <parameter name="width" value="32" />
  </module>
  <module
    name="elipse_b_in"
@@ -310,7 +310,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="12" />
+  <parameter name="width" value="32" />
  </module>
  <module
    name="elipse_x_out"
@@ -328,7 +328,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="12" />
+  <parameter name="width" value="32" />
  </module>
  <module
    name="elipse_y_out"
@@ -346,7 +346,7 @@
   <parameter name="resetValue" value="0" />
   <parameter name="simDoTestBenchWiring" value="false" />
   <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="12" />
+  <parameter name="width" value="32" />
  </module>
  <module
    name="jtag_uart"
