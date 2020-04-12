@@ -1,7 +1,7 @@
 //main.c
-#include "io.h"        //<- required for IOWR
-#include "alt_types.h" //<- required for alt_u32
-#include "system.h"    //<- contains address of CORDIC_PIPELINE_AVALON_INTERFACE_0_BASE
+#include "io.h"
+#include "alt_types.h"
+#include "system.h"
 
 #define PI_VAL  3.14
 #define FXP_MUL 1024
@@ -10,25 +10,24 @@
  */
 
 int main() {
-  printf("HELLO FROM NIOS II PROCESSOR PROGRAM HELLO\n");
-
-  alt_u32 angle_start = 0x0000; //<- Start angle.
-  alt_32 elipse_a     = 0x0000; //<- Elipse parameter a.
-  alt_32 elipse_b     = 0x0000; //<- Elipse parameter b.
-
-  // Get start angle value.
-  angle_start = IORD_32DIRECT(ANGLE_IN_BASE, 0);
-
-  /** Coordinates (x, y) are equal to (a * cos(alfa), b * sin(alfa)).
-   * Cordic processor is used to calculate cos(alfa) and sin(alfa).
-   */
-  alt_32 coord_x, coord_y;
+  printf("HELLO FROM NIOS II PROCESSOR PROGRAM\n");
 
   const alt_u32 angle_last  = PI_VAL * 2 * FXP_MUL;
   const alt_u32 angle_first = 0;
 
+  // Get start angle value.
+  alt_u32 angle_start  = IORD_32DIRECT(ANGLE_IN_BASE, 0); //<- Start angle.
   alt_u32 angle_cordic = angle_start;
+
+  /** Coordinates (x, y) are equal to (a * cos(alfa), b * sin(alfa)).
+   * Cordic processor is used to calculate cos(alfa) and sin(alfa).
+   */
+  alt_32 elipse_a = 0x0000; //<- Elipse parameter a.
+  alt_32 elipse_b = 0x0000; //<- Elipse parameter b.
+
   alt_32 sincos, sin, cos;
+
+  alt_32 coord_x, coord_y;
 
   while(1) {
     // Get elipse parameters.
@@ -63,6 +62,3 @@ int main() {
     angle_cordic += 64;
   }
 }
-
-
-//   file copy -force /media/piko/SeagateBackupPlusDrive/intelFPGA_lite/19.1/cordic_lab/software/Application_Cordic/mem_init/nios_cordic_system_RAM.hex ./
