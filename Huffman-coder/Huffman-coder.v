@@ -23,12 +23,6 @@ reg mode; // high - write, low - read;
 reg [11:0] data_to_write_to_ram;
 reg [5:0] ram_addr;
 
-initial 
-begin
-	data_to_write_to_ram = 12'b000000000000;
-	ram_addr = 6'b000000;
-end
-
 always @*
 begin 
 	if (chipselect & write)
@@ -55,13 +49,14 @@ memory_unit LUT (
 	.data_out    (codeword)
 );
 
-assign code   = codeword[7:0];
-assign length = codeword[11:8];
+assign length = codeword[3:0];
+assign code   = codeword[11:4];
 
 // instantiate coder
-coder DUT ( 
+coder coder_dut ( 
 	.clock       (clock),
 	.resetn      (resetn),
+	.ce          (1'b1),
 	.code        (code),
 	.length      (length),
 	.encoded_out (encoded_out),

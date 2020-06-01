@@ -5,7 +5,7 @@
 `timescale 1 ps / 1 ps
 module coder_tb ( );
 
-reg clk;
+reg clk, clken;
 wire rst;
 wire [7:0] cd;
 wire [3:0] ln;
@@ -24,11 +24,13 @@ begin
 	code = 8'b00000000;
 //	code = 8'b11111111;
    codelen = 4'b0000;
+	clken = 1'b1;
 end
 	
 coder DUT ( 
 	.clock       (clk),
 	.resetn      (rst),
+	.ce 			 (clken),
 	.code        (cd),
 	.length      (ln),
 	.encoded_out (ec_o),
@@ -45,7 +47,7 @@ end
 
 always
 begin
-	#5;
+	#15;
 	if (codelen > 4)
 		codelen <= 1;
 	else
