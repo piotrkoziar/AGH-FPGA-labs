@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Design Name: 
+// Design Name: Huffman-coder
 // Module Name: Huffman_coder
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -15,6 +15,7 @@ output [31:0] readdata;
 output [31:0] encoded_out;
 output enable_out; 
 
+// locals
 wire [11:0] codeword;
 wire [7:0] code;
 wire [3:0] length;
@@ -22,26 +23,32 @@ wire [3:0] length;
 reg mode; // high - write, low - read;
 reg [11:0] data_to_write_to_ram;
 reg [5:0] ram_addr;
+reg clock_enable;
 
 always @*
 begin 
 	if (chipselect & write)
 	begin
-		mode = 1'b1;
-		ram_addr = writedata[5:0];
-		data_to_write_to_ram = writedata[17:6];
+		mode <= 1'b1;
+		ram_addr <= writedata[5:0];
+		data_to_write_to_ram <= writedata[17:6];
+		clock_enable <= 1'b0;
 	end
-	
-	if (chipselect & read)
+	else if (chipselect & read)
 	begin
-		mode = 1'b0;
-		ram_addr = writedata[5:0];
+		mode <= 1'b0;
+		ram_addr <= writedata[5:0];
+		clock_enable <= 1'b1;
+	end
+	else 
+	begin 
+		clock_enable <= 1'b0;
 	end
 end
 
 
 // instantiate memory
-memory_unit LUT ( 
+memory_unit LUT_inst ( 
 	.clock       (clock),
 	.modeselect  (mode),
 	.data        (data_to_write_to_ram),
@@ -53,10 +60,10 @@ assign length = codeword[3:0];
 assign code   = codeword[11:4];
 
 // instantiate coder
-coder coder_dut ( 
+coder coder_inst ( 
 	.clock       (clock),
 	.resetn      (resetn),
-	.ce          (1'b1),
+	.ce          (clock_enable && length),
 	.code        (code),
 	.length      (length),
 	.encoded_out (encoded_out),

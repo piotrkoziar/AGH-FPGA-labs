@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Design Name: 
+// Design Name: coder
 // Module Name: coder
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,7 @@ parameter mask = 39'h7fffffffff;
 
 always @( posedge clock )
 begin
-	if (ce == 1'b1 && length > 1'b0)
+	if (ce == 1'b1)
 	begin
 		if (resetn == 1'b0) 
 		begin
