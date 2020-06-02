@@ -22,8 +22,8 @@ reg [0:0] ready;
 
 initial 
 begin
-acc_length = 6'b0;
-tmp_reg = 39'b0;
+acc_length <= 6'b0;
+tmp_reg <= 39'b0;
 end
 
 assign flag32 = acc_length[5]; 
@@ -35,8 +35,8 @@ begin
 	begin
 		if (resetn == 1'b0) 
 		begin
-			acc_length = 6'b0;
-			tmp_reg = 39'b0;
+			acc_length <= 6'b0;
+			tmp_reg <= 39'b0;
 		end
 
 		if (flag32 == 1'b1) // check if in tmp_reg there is >= 32 bits.
