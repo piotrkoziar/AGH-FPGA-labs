@@ -38,3 +38,10 @@ You can simulate the system in ModelSim:
 2. cd __*cordic_lab/nios_cordic_system/testbench/mentor*__ (exists only if testbench was generated)
 3. __*do msim_setup.tcl*__
 4. __*ld_debug*__
+
+## Additional notes
+
+- DE10-Lite require you to change the setting Assignments >
+Device > Device and Pin Options > Configuration > Configuration Mode to Single uncompressed image
+with Memory Initialization in order to successfully compile.
+- if you want smaller hex, make sure that hal.enable_reduced_device_drivers option value in settings.bsp file is set.
