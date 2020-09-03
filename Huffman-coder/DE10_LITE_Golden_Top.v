@@ -127,7 +127,7 @@ module DE10_LITE_Golden_Top(
 //  REG/WIRE declarations
 //=======================================================
 
-
+wire [31:0] to_HEX;
 
 
 //=======================================================
@@ -135,5 +135,18 @@ module DE10_LITE_Golden_Top(
 //=======================================================
 
 
-
+ Huffman_coder u0 (
+	  .clk_clk        (MAX10_CLK1_50), 	//        clk.clk
+	  .export_out_ebo (LEDR[0]), 			// export_out.ebo
+	  .export_out_eco (to_HEX), 			//           .eco
+	  .reset_reset_n  (KEY[0])   			//      reset.reset_n
+ );
+ 
+ hex7seg h0(to_HEX[3:0], HEX0);
+ hex7seg h1(to_HEX[7:4], HEX1);
+ hex7seg h2(to_HEX[11:8], HEX2);
+ hex7seg h3(to_HEX[15:12], HEX3);
+ hex7seg h4(to_HEX[19:16], HEX4);
+ hex7seg h5(to_HEX[23:20], HEX5);
+ 
 endmodule

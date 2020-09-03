@@ -3,6 +3,33 @@
 // Module Name: memory_unit_tb
 //////////////////////////////////////////////////////////////////////////////////
 
+/* 
+How do I test memory_unit:
+1. Uncomment (or add if necessary) 
+	
+	initial
+	begin
+		$display("Loading rom.");
+		$readmemh("test_mem.mem", ram);
+	end
+
+	to memory_unit.v.
+	
+2. Create test_mem.mem file that contains 64 12-long words e.g.
+
+dea
+bee
+fef
+000
+ .
+ .
+ . 
+	
+	
+3. Put test_mem.mem file to directory of vsim - for me it is [...]/modelsim_ase/bin
+4. Compile and simulate in ModelSim.
+*/
+ 
 module memory_unit_tb ( );
 
 reg clk;
