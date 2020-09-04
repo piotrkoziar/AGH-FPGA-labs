@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////////
-// Design Name: Huffman-coder_tb
-// Module Name: Huffman_coder_tb
+// Design Name: Huffman_coder_rtl
+// Module Name: Huffman_coder_rtl
 //////////////////////////////////////////////////////////////////////////////////
 
 // With Avalon MM Interface interface.
-module Huffman_coder_tb( );
+module Huffman_coder_rtl ( clock, resetn, writedata, readdata, write, read, chipselect, encoded_out, enable_out );
 
 // signals for connecting to the Avalon fabric
 input clock, resetn, read, write, chipselect;
@@ -15,39 +15,40 @@ output [31:0] readdata;
 output [31:0] encoded_out;
 output enable_out; 
 
+// locals
 wire [11:0] codeword;
 wire [7:0] code;
 wire [3:0] length;
 
-wire mode;
+reg mode; // high - write, low - read;
 reg [11:0] data_to_write_to_ram;
 reg [5:0] ram_addr;
-
-assign mode = 1'b0; // high - write, low - read;
-
-initial 
-begin
-	data_to_write_to_ram = 12'b000000000000;
-	ram_addr = 6'b000000;
-end
+reg clock_enable;
 
 always @*
 begin 
 	if (chipselect & write)
 	begin
-		ram_addr = writedata[5:0];
-		data_to_write_to_ram = writedata[17:6];
+		mode <= 1'b1;
+		ram_addr <= writedata[5:0];
+		data_to_write_to_ram <= writedata[17:6];
+		clock_enable <= 1'b0;
 	end
-	
-	if (chipselect & read)
+	else if (chipselect & read)
 	begin
-		ram_addr = writedata[5:0];
+		mode <= 1'b0;
+		ram_addr <= writedata[5:0];
+		clock_enable <= 1'b1;
+	end
+	else 
+	begin 
+		clock_enable <= 1'b0;
 	end
 end
 
 
 // instantiate memory
-memory_unit LUT ( 
+memory_unit LUT_inst ( 
 	.clock       (clock),
 	.modeselect  (mode),
 	.data        (data_to_write_to_ram),
@@ -55,13 +56,14 @@ memory_unit LUT (
 	.data_out    (codeword)
 );
 
-assign code   = codeword[7:0];
-assign length = codeword[11:8];
+assign length = codeword[3:0];
+assign code   = codeword[11:4];
 
 // instantiate coder
-coder DUT ( 
+coder coder_inst ( 
 	.clock       (clock),
 	.resetn      (resetn),
+	.ce          (clock_enable && length),
 	.code        (code),
 	.length      (length),
 	.encoded_out (encoded_out),

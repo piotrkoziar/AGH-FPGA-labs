@@ -19,7 +19,7 @@ reg [5:0] addr_reg;
 //initial
 //begin
 //	$display("Loading rom.");
-//   $readmemh("test_memory.mem", ram);
+//   $readmemh("test_mem.mem", ram);
 //end
 
 always @( posedge clock )
