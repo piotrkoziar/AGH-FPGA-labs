@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Sep 4, 2020 12:31:47 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1599215507529</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Sep 5, 2020 4:01:04 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1599314464824</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/media/piko/Seagate/AGH-FPGA-labs/Huffman-coder/Huffman_coder_system/software/bsp</BspGeneratedLocation>
         <BspSettingsFile>./settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../../Huffman_coder.sopcinfo</SopcDesignFile>
@@ -194,7 +194,7 @@
                 <SettingName>hal.stdin</SettingName>
                 <Identifier>none</Identifier>
                 <Type>UnquotedString</Type>
-                <Value>none</Value>
+                <Value>jtag_uart_0</Value>
                 <DefaultValue>none</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Slave descriptor of STDIN character-mode device. This setting is used by the ALT_STDIN family of defines in system.h.</Description>
@@ -206,7 +206,7 @@
                 <SettingName>hal.stdout</SettingName>
                 <Identifier>none</Identifier>
                 <Type>UnquotedString</Type>
-                <Value>none</Value>
+                <Value>jtag_uart_0</Value>
                 <DefaultValue>none</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Slave descriptor of STDOUT character-mode device. This setting is used by the ALT_STDOUT family of defines in system.h.</Description>
@@ -218,7 +218,7 @@
                 <SettingName>hal.stderr</SettingName>
                 <Identifier>none</Identifier>
                 <Type>UnquotedString</Type>
-                <Value>none</Value>
+                <Value>jtag_uart_0</Value>
                 <DefaultValue>none</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Slave descriptor of STDERR character-mode device. This setting is used by the ALT_STDERR family of defines in system.h.</Description>
@@ -874,15 +874,45 @@
                 <Enabled>false</Enabled>
                 <Group>none</Group>
         </Setting>
+        <Setting>
+                <SettingName>altera_avalon_jtag_uart_driver.enable_small_driver</SettingName>
+                <Identifier>ALTERA_AVALON_JTAG_UART_SMALL</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>false</Value>
+                <DefaultValue>false</DefaultValue>
+                <DestinationFile>public_mk_define</DestinationFile>
+                <Description>Small-footprint (polled mode) driver</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
+                <SettingName>altera_avalon_jtag_uart_driver.enable_jtag_uart_ignore_fifo_full_error</SettingName>
+                <Identifier>ALTERA_AVALON_JTAG_UART_IGNORE_FIFO_FULL_ERROR</Identifier>
+                <Type>BooleanDefineOnly</Type>
+                <Value>false</Value>
+                <DefaultValue>false</DefaultValue>
+                <DestinationFile>public_mk_define</DestinationFile>
+                <Description>Enable JTAG UART driver to recover when host is inactive causing buffer to full without returning error. Printf will not fail with this recovery.</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
         <MemoryMap>
                 <slaveDescriptor>onchip_memory2_0</slaveDescriptor>
-                <addressRange>0x00040000 - 0x0007FFFF</addressRange>
-                <addressSpan>262144</addressSpan>
+                <addressRange>0x00010000 - 0x0001FFFF</addressRange>
+                <addressSpan>65536</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>jtag_uart_0</slaveDescriptor>
+                <addressRange>0x00021000 - 0x00021007</addressRange>
+                <addressSpan>8</addressSpan>
+                <attributes>printable</attributes>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>Huffman_coder_ip_0</slaveDescriptor>
-                <addressRange>0x00081000 - 0x00081003</addressRange>
+                <addressRange>0x00021008 - 0x0002100B</addressRange>
                 <addressSpan>4</addressSpan>
                 <attributes/>
         </MemoryMap>

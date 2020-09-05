@@ -6,9 +6,17 @@
    version="1.0"
    description=""
    tags=""
-   categories="" />
+   categories="System" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
+   element Huffman_coder
+   {
+      datum _originalDeviceFamily
+      {
+         value = "MAX 10";
+         type = "String";
+      }
+   }
    element Huffman_coder_ip_0
    {
       datum _sortIndex
@@ -21,7 +29,7 @@
    {
       datum baseAddress
       {
-         value = "528384";
+         value = "135176";
          type = "String";
       }
    }
@@ -31,6 +39,22 @@
       {
          value = "0";
          type = "int";
+      }
+   }
+   element jtag_uart_0
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element jtag_uart_0.avalon_jtag_slave
+   {
+      datum baseAddress
+      {
+         value = "135168";
+         type = "String";
       }
    }
    element nios2_gen2_0
@@ -45,7 +69,7 @@
    {
       datum baseAddress
       {
-         value = "526336";
+         value = "133120";
          type = "String";
       }
    }
@@ -61,7 +85,7 @@
    {
       datum baseAddress
       {
-         value = "262144";
+         value = "65536";
          type = "String";
       }
    }
@@ -79,7 +103,7 @@
  <parameter name="hideFromIPCatalog" value="false" />
  <parameter name="lockedInterfaceDefinition" value="" />
  <parameter name="maxAdditionalLatency" value="1" />
- <parameter name="projectName" value="" />
+ <parameter name="projectName" value="Huffman-coder.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="0" />
  <parameter name="testBenchDutName" value="" />
@@ -96,13 +120,32 @@
  <module
    name="Huffman_coder_ip_0"
    kind="Huffman_coder_ip"
-   version="1.0"
+   version="2.0"
    enabled="1" />
  <module name="clk_0" kind="clock_source" version="20.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module
+   name="jtag_uart_0"
+   kind="altera_avalon_jtag_uart"
+   version="20.1"
+   enabled="1">
+  <parameter name="allowMultipleConnections" value="false" />
+  <parameter name="avalonSpec" value="2.0" />
+  <parameter name="clkFreq" value="50000000" />
+  <parameter name="hubInstanceID" value="0" />
+  <parameter name="readBufferDepth" value="64" />
+  <parameter name="readIRQThreshold" value="8" />
+  <parameter name="simInputCharacterStream" value="" />
+  <parameter name="simInteractiveOptions">NO_INTERACTIVE_WINDOWS</parameter>
+  <parameter name="useRegistersForReadBuffer" value="false" />
+  <parameter name="useRegistersForWriteBuffer" value="false" />
+  <parameter name="useRelativePathForSimFile" value="false" />
+  <parameter name="writeBufferDepth" value="64" />
+  <parameter name="writeIRQThreshold" value="8" />
  </module>
  <module
    name="nios2_gen2_0"
@@ -125,10 +168,10 @@
   <parameter name="customInstSlavesSystemInfo_nios_a" value="&lt;info/&gt;" />
   <parameter name="customInstSlavesSystemInfo_nios_b" value="&lt;info/&gt;" />
   <parameter name="customInstSlavesSystemInfo_nios_c" value="&lt;info/&gt;" />
-  <parameter name="dataAddrWidth" value="20" />
+  <parameter name="dataAddrWidth" value="18" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x40000' end='0x80000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x80800' end='0x81000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='Huffman_coder_ip_0.avalon_slave_0' start='0x81000' end='0x81004' type='Huffman_coder_ip.avalon_slave_0' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x10000' end='0x20000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x20800' end='0x21000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x21000' end='0x21008' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='Huffman_coder_ip_0.avalon_slave_0' start='0x21008' end='0x2100C' type='Huffman_coder_ip.avalon_slave_0' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -166,15 +209,15 @@
   <parameter name="icache_size" value="4096" />
   <parameter name="icache_tagramBlockType" value="Automatic" />
   <parameter name="impl" value="Tiny" />
-  <parameter name="instAddrWidth" value="20" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x40000' end='0x80000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x80800' end='0x81000' type='altera_nios2_gen2.debug_mem_slave' /></address-map>]]></parameter>
+  <parameter name="instAddrWidth" value="18" />
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x10000' end='0x20000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x20800' end='0x21000' type='altera_nios2_gen2.debug_mem_slave' /></address-map>]]></parameter>
   <parameter name="instructionMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="instructionMasterHighPerformanceMapParam" value="" />
   <parameter name="instruction_master_high_performance_paddr_base" value="0" />
   <parameter name="instruction_master_high_performance_paddr_size" value="0" />
   <parameter name="instruction_master_paddr_base" value="0" />
   <parameter name="instruction_master_paddr_size" value="0" />
-  <parameter name="internalIrqMaskSystemInfo" value="0" />
+  <parameter name="internalIrqMaskSystemInfo" value="1" />
   <parameter name="io_regionbase" value="0" />
   <parameter name="io_regionsize" value="0" />
   <parameter name="master_addr_map" value="false" />
@@ -306,7 +349,7 @@
   <parameter name="initMemContent" value="true" />
   <parameter name="initializationFileName">/media/piko/Seagate/AGH-FPGA-labs/Huffman-coder/Huffman_coder_system/software/app/mem_init/Huffman_coder_onchip_memory2_0.hex</parameter>
   <parameter name="instanceID" value="NONE" />
-  <parameter name="memorySize" value="262144" />
+  <parameter name="memorySize" value="65536" />
   <parameter name="readDuringWriteMode" value="DONT_CARE" />
   <parameter name="resetrequest_enabled" value="true" />
   <parameter name="simAllowMRAMContentsFile" value="false" />
@@ -322,9 +365,18 @@
    kind="avalon"
    version="20.1"
    start="nios2_gen2_0.data_master"
+   end="jtag_uart_0.avalon_jtag_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00021000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="20.1"
+   start="nios2_gen2_0.data_master"
    end="Huffman_coder_ip_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00081000" />
+  <parameter name="baseAddress" value="0x00021008" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -333,7 +385,7 @@
    start="nios2_gen2_0.data_master"
    end="nios2_gen2_0.debug_mem_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00080800" />
+  <parameter name="baseAddress" value="0x00020800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -342,7 +394,7 @@
    start="nios2_gen2_0.data_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00040000" />
+  <parameter name="baseAddress" value="0x00010000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -351,7 +403,7 @@
    start="nios2_gen2_0.instruction_master"
    end="nios2_gen2_0.debug_mem_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00080800" />
+  <parameter name="baseAddress" value="0x00020800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -360,10 +412,11 @@
    start="nios2_gen2_0.instruction_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00040000" />
+  <parameter name="baseAddress" value="0x00010000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="20.1" start="clk_0.clk" end="nios2_gen2_0.clk" />
+ <connection kind="clock" version="20.1" start="clk_0.clk" end="jtag_uart_0.clk" />
  <connection
    kind="clock"
    version="20.1"
@@ -375,6 +428,13 @@
    start="clk_0.clk"
    end="Huffman_coder_ip_0.clock_sink" />
  <connection
+   kind="interrupt"
+   version="20.1"
+   start="nios2_gen2_0.irq"
+   end="jtag_uart_0.irq">
+  <parameter name="irqNumber" value="0" />
+ </connection>
+ <connection
    kind="reset"
    version="20.1"
    start="clk_0.clk_reset"
@@ -384,6 +444,11 @@
    version="20.1"
    start="clk_0.clk_reset"
    end="nios2_gen2_0.reset" />
+ <connection
+   kind="reset"
+   version="20.1"
+   start="clk_0.clk_reset"
+   end="jtag_uart_0.reset" />
  <connection
    kind="reset"
    version="20.1"

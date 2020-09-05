@@ -3,20 +3,23 @@
 // Module Name: coder
 //////////////////////////////////////////////////////////////////////////////////
 
-module coder ( clock, resetn, ce, code, length, encoded_out, enable_out );
+module coder ( clock, resetn, ce, code, length, finalize, encoded_out, enable_out, length_out );
 
 // input signals
 input clock, resetn, ce;
 input [7:0] code;
 input [3:0] length;
+input [0:0] finalize;
 
 // output signals
 output [31:0] encoded_out;
+output [5:0] length_out;
 output enable_out; 
 
 reg [5:0]  acc_length; // accumulated code length (can have values 0-39)
 reg [39:0] tmp_reg; // temporary register
 reg [31:0] output_reg;
+reg [5:0] final_length; // number of valid bits in output reg
 wire flag32;
 reg [0:0] ready;
 
@@ -38,8 +41,15 @@ begin
 			acc_length <= 6'b0;
 			tmp_reg <= 39'b0;
 		end
-
-		if (flag32 == 1'b1) // check if in tmp_reg there is >= 32 bits.
+		if (finalize == 1'b1)
+		begin
+			final_length <= acc_length;
+			output_reg <= tmp_reg[31:0];
+			acc_length <= 6'b0;
+			tmp_reg <= 39'b0;
+			ready <= 1'b1;
+		end
+		else if (flag32 == 1'b1) // check if in tmp_reg there is >= 32 bits.
 		begin
 			/*
 			* Adding with a mask. Final mask is created from two masks:
@@ -54,6 +64,7 @@ begin
 			tmp_reg <= (tmp_reg >> 32) + ( ((mask << (acc_length - 32)) & (mask >> (39 - acc_length + 32 - length))) & (code << (acc_length - 32)) );
 			acc_length <= length + acc_length - 32;
 			output_reg <= tmp_reg[31:0]; 
+			final_length <= 32;
 			ready <= 1'b1;
 		end
 		else
@@ -77,6 +88,7 @@ end
 
 
 assign encoded_out = output_reg;
+assign length_out = final_length;
 assign enable_out = ready;
 
 endmodule
