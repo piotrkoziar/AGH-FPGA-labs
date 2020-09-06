@@ -10,8 +10,6 @@ reg local_clock, local_resetn, local_write, local_read, local_chipselect;
 reg [31:0] local_writedata;
 
 wire [31:0] local_readdata, local_encoded_out;
-wire [5:0] local_length_out;
-wire local_enable_out;
 
 //reg [18:0] addr_write_to_ram;
 reg [5:0] addr_to_ram;
@@ -36,9 +34,7 @@ Huffman_coder_rtl Huffman_upper (
 .write(local_write), 
 .read(local_read), 
 .chipselect(local_chipselect), 
-.encoded_out(local_encoded_out), 
-.length_out(local_length_out),
-.enable_out(local_enable_out)
+.encoded_out(local_encoded_out)
 );
 
 always
@@ -47,7 +43,7 @@ begin
 	#5; // low for 5 * timescale = 5 ns
 	local_clock = 1'b1;
 	#5; // high for 5 * timescale = 5 ns
-	if (local_enable_out == 1'b1)
+	if (local_readdata[0:0] == 1'b1)
 	begin
 		$display("Output code bin: %b, hex: %h", local_encoded_out, local_encoded_out);
 	end
@@ -73,6 +69,7 @@ begin
 	$display("Write to RAM: address %d, data_len %d, data bin: %b, hex: %h, decimal: %d", 
 			addr_to_ram, len_of_data, data_to_ram, data_to_ram, data_to_ram);
 	#10;
+	#10;
 	local_write <= 1'b0;
 	local_read <= 1'b1;
 	local_chipselect <= 1'b1;
@@ -83,6 +80,7 @@ begin
 	addr_to_ram <= addr_to_ram + 1;
 	len_of_data <= (len_of_data != 4'b1000) ? 4'b1000 : 4'b0100;
 	data_to_ram <= (data_to_ram > 8'b10000000) ? 8'b00000001 : data_to_ram + 1;
+	#10;
 end
 
 endmodule

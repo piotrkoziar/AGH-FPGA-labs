@@ -134,11 +134,8 @@ wire [31:0] to_HEX;
 //  Structural coding
 //=======================================================
 
-
  Huffman_coder u0 (
 	  .clk_clk        (MAX10_CLK1_50), 	//        clk.clk
-	  .exported_out_ebo (LEDR[0]), 		// exported_out.ebo
-	  .exported_out_eco (to_HEX), 		//           .eco
 	  .reset_reset_n  (KEY[0])   		//      reset.reset_n
  );
 

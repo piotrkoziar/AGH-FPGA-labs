@@ -3,11 +3,13 @@
 #include "alt_types.h"
 #include "system.h"
 
-#define PI_VAL  3.14
-#define FXP_MUL 1024
+// #define PI_VAL  3.14
+// #define FXP_MUL 1024
 
 /** Simple program that gets elipse coordinations and exports it.
  */
+
+char *sample = "ToMusiBycZakodowane";
 
 int main() {
   printf("HELLO FROM NIOS II PROCESSOR PROGRAM\n");
@@ -31,7 +33,11 @@ int main() {
 
   unsigned int val = 0;
   while(1) {
-    val = IORD(HUFFMAN_CODER_IP_0_BASE,0);
+    printf("Code letter a, ascii (%d)\n", ((int)'a' - 97));
+    val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
+    printf("%x\n", val);
+    printf("Code letter f, ascii (%d)\n", ((int)'f' - 97));
+    val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE + 1, 0);
     printf("%x\n", val);
     // // Get elipse parameters.
     // elipse_a = IORD_32DIRECT(ELIPSE_A_IN_BASE, 0);

@@ -6,18 +6,12 @@
 module Huffman_coder_tb (
 	);
 
-	wire         huffman_coder_inst_clk_bfm_clk_clk;       // Huffman_coder_inst_clk_bfm:clk -> [Huffman_coder_inst:clk_clk, Huffman_coder_inst_exported_out_bfm:clk, Huffman_coder_inst_reset_bfm:clk]
-	wire  [31:0] huffman_coder_inst_exported_out_eco;      // Huffman_coder_inst:exported_out_eco -> Huffman_coder_inst_exported_out_bfm:sig_eco
-	wire         huffman_coder_inst_exported_out_ebo;      // Huffman_coder_inst:exported_out_ebo -> Huffman_coder_inst_exported_out_bfm:sig_ebo
-	wire   [5:0] huffman_coder_inst_exported_out_lno;      // Huffman_coder_inst:exported_out_lno -> Huffman_coder_inst_exported_out_bfm:sig_lno
-	wire         huffman_coder_inst_reset_bfm_reset_reset; // Huffman_coder_inst_reset_bfm:reset -> Huffman_coder_inst:reset_reset_n
+	wire    huffman_coder_inst_clk_bfm_clk_clk;       // Huffman_coder_inst_clk_bfm:clk -> [Huffman_coder_inst:clk_clk, Huffman_coder_inst_reset_bfm:clk]
+	wire    huffman_coder_inst_reset_bfm_reset_reset; // Huffman_coder_inst_reset_bfm:reset -> Huffman_coder_inst:reset_reset_n
 
 	Huffman_coder huffman_coder_inst (
-		.clk_clk          (huffman_coder_inst_clk_bfm_clk_clk),       //          clk.clk
-		.exported_out_ebo (huffman_coder_inst_exported_out_ebo),      // exported_out.ebo
-		.exported_out_eco (huffman_coder_inst_exported_out_eco),      //             .eco
-		.exported_out_lno (huffman_coder_inst_exported_out_lno),      //             .lno
-		.reset_reset_n    (huffman_coder_inst_reset_bfm_reset_reset)  //        reset.reset_n
+		.clk_clk       (huffman_coder_inst_clk_bfm_clk_clk),       //   clk.clk
+		.reset_reset_n (huffman_coder_inst_reset_bfm_reset_reset)  // reset.reset_n
 	);
 
 	altera_avalon_clock_source #(
@@ -25,14 +19,6 @@ module Huffman_coder_tb (
 		.CLOCK_UNIT (1)
 	) huffman_coder_inst_clk_bfm (
 		.clk (huffman_coder_inst_clk_bfm_clk_clk)  // clk.clk
-	);
-
-	altera_conduit_bfm huffman_coder_inst_exported_out_bfm (
-		.clk     (huffman_coder_inst_clk_bfm_clk_clk),  //     clk.clk
-		.sig_ebo (huffman_coder_inst_exported_out_ebo), // conduit.ebo
-		.sig_eco (huffman_coder_inst_exported_out_eco), //        .eco
-		.sig_lno (huffman_coder_inst_exported_out_lno), //        .lno
-		.reset   (1'b0)                                 // (terminated)
 	);
 
 	altera_avalon_reset_source #(

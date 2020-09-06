@@ -3,48 +3,57 @@
 // Module Name: coder
 //////////////////////////////////////////////////////////////////////////////////
 
-module coder ( clock, resetn, ce, code, length, finalize, encoded_out, enable_out, length_out );
+module coder (
 
-// input signals
-input clock, resetn, ce;
-input [7:0] code;
-input [3:0] length;
-input [0:0] finalize;
+	// input signals
+	input 		 clock, resetn, ce,
+	input [7:0]  code,
+	input [3:0]  length,
+	input 	    finalize, // finalize encoding operation. Output will be prepared from data collected so far.
+	input 		 read,	  // read encoded data from FIFO.
 
-// output signals
-output [31:0] encoded_out;
-output [5:0] length_out;
-output enable_out; 
+	// output signals
+	output reg [31:0] encoded_out, // encoded data read from FIFO or partially encoded data when finalized.
+	output reg [5:0]  length_out, // length of encoded data in output, if finalized.
+	output		  		empty_out, // states if there is any encoded data in FIFO to be read.
+	output 		  		full, // 1 if there is no more space to store the data!
+	output 		  		threshold // threshold in data storage.
+);
 
-reg [5:0]  acc_length; // accumulated code length (can have values 0-39)
-reg [39:0] tmp_reg; // temporary register
-reg [31:0] output_reg;
-reg [5:0] final_length; // number of valid bits in output reg
-wire flag32;
+// coder
+reg [5:0]  acc_length; // accumulated code length (can have values 0-39).
+reg [39:0] tmp_reg; // temporary register.
+reg [31:0] output_reg; // prepared encoded data (to be stored in FIFO).
 reg [0:0] ready;
+wire flag32;
 
-initial 
+// FIFO
+wire overflow;
+wire underflow;
+
+initial
 begin
 acc_length <= 6'b0;
 tmp_reg <= 39'b0;
 end
 
-assign flag32 = acc_length[5]; 
+assign flag32 = acc_length[5];
 parameter mask = 39'h7fffffffff;
 
 always @( posedge clock )
 begin
 	if (ce == 1'b1)
 	begin
-		if (resetn == 1'b0) 
+		if (resetn == 1'b0)
 		begin
 			acc_length <= 6'b0;
 			tmp_reg <= 39'b0;
 		end
 		if (finalize == 1'b1)
 		begin
-			final_length <= acc_length;
-			output_reg <= tmp_reg[31:0];
+			length_out <= acc_length; // update length of data in output when finalized.
+			// output_reg <= tmp_reg[31:0]; // not like that, lets put the result immediately to out.
+			encoded_out <= tmp_reg[31:0];
 			acc_length <= 6'b0;
 			tmp_reg <= 39'b0;
 			ready <= 1'b1;
@@ -63,8 +72,8 @@ begin
 			*/
 			tmp_reg <= (tmp_reg >> 32) + ( ((mask << (acc_length - 32)) & (mask >> (39 - acc_length + 32 - length))) & (code << (acc_length - 32)) );
 			acc_length <= length + acc_length - 32;
-			output_reg <= tmp_reg[31:0]; 
-			final_length <= 32;
+			output_reg <= tmp_reg[31:0];
+			length_out <= 0; // no finzalization.
 			ready <= 1'b1;
 		end
 		else
@@ -81,14 +90,24 @@ begin
 			*/
 			tmp_reg <= tmp_reg + ( ((mask << acc_length) & (mask >> (39 - acc_length - length))) & (code << acc_length) );
 			acc_length <= length + acc_length;
+			length_out <= 0; // no finalization.
 			ready <= 1'b0;
 		end
 	end // ce == 1
 end
 
-
-assign encoded_out = output_reg;
-assign length_out = final_length;
-assign enable_out = ready;
+FIFO_coder (
+	.data_out ( encoded_out ),
+	.fifo_full ( full ),
+	.fifo_empty ( empty_out ),
+	.fifo_threshold ( threshold ),
+	.fifo_overflow ( overflow ),
+	.fifo_underflow ( underflow ),
+	.clk (clock),
+	.rst_n (resetn),
+	.write (ready),
+	.read (read),
+	.data_in (output_reg)
+);
 
 endmodule
