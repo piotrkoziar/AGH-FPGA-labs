@@ -1,73 +1,129 @@
 //main.c
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
+
 #include "io.h"
 #include "alt_types.h"
 #include "system.h"
 
-// #define PI_VAL  3.14
-// #define FXP_MUL 1024
+#define ASCII_NORMALIZATION 65
 
-/** Simple program that gets elipse coordinations and exports it.
- */
+static bool finalized = false; // set to 1 when we are sure that there is nothing left for read.
 
-char *sample = "ToMusiBycZakodowane";
+static int coder_write(uint8_t addr) {
+  // TODO: check if full.
+
+  IOWR_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0, addr);
+  finalized = false;
+  return 0;
+}
+
+static void coder_read(uint32_t *encoded_output, uint8_t *encoded_length) {
+
+  if (finalized == true) {
+    *encoded_length = 0;
+    return;
+  }
+
+  if (IORD(PIO_EMPTY_BASE, 0)) { // is fifo empty?
+
+    IOWR(PIO_DATA_LENGTH_BASE, 0, 1);
+    *encoded_length = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
+    IOWR(PIO_DATA_LENGTH_BASE, 0, 0);
+
+    printf("DEBUG: encoded_length = %d\n", *encoded_length);
+    if (*encoded_length > 0) { // is anything to get with finalize?
+      // finalize
+      IOWR(PIO_FINALIZE_BASE, 0, 1);
+      *encoded_output = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
+      IOWR(PIO_FINALIZE_BASE, 0, 0);
+    }
+
+    // there is nothing more to read.
+    finalized = true;
+
+  } else {
+    // fifo has data. Read it.
+    *encoded_output = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
+    *encoded_length = 32;
+  }
+}
+
+void encode(const char *string_to_encode) {
+  uint8_t i, normalized_ascii;
+
+  int strLength = strlen(string_to_encode);
+
+  for (i = 0; i < strLength; i++) {
+      normalized_ascii = (string_to_encode[i] - (ASCII_NORMALIZATION));
+      printf("Write to coder: encode %d (normalized ascii for %c)\n", normalized_ascii, string_to_encode[i]);
+      coder_write(normalized_ascii);
+  }
+}
+
+void print_encoded() {
+  uint8_t length = 0;
+  int j;
+  uint32_t bit;
+  uint32_t enc_data = 0;
+  printf("Encoded data:\n");
+
+  coder_read(&enc_data, &length);
+  while (length > 0) {
+    for (j = (length - 1); j >= 0; --j) {
+      bit = (enc_data >> j);
+
+      if (bit & 1)
+        printf("1");
+      else
+        printf("0");
+    }
+    coder_read(&enc_data, &length);
+  }
+  printf("\nEnd of encoded data.\n");
+}
+
+const char *sample = "ToMusiBycZakodowane";
+const char *sample2 = "abc";
 
 int main() {
   printf("HELLO FROM NIOS II PROCESSOR PROGRAM\n");
 
-  // const alt_u32 angle_last  = PI_VAL * 2 * FXP_MUL;
-  // const alt_u32 angle_first = 0;
-
-  // // Get start angle value.
-  // alt_u32 angle_start  = IORD_32DIRECT(ANGLE_IN_BASE, 0); //<- Start angle.
-  // alt_u32 angle_cordic = angle_start;
-
-  // /** Coordinates (x, y) are equal to (a * cos(alfa), b * sin(alfa)).
-  //  * Cordic processor is used to calculate cos(alfa) and sin(alfa).
-  //  */
-  // alt_32 elipse_a = 0x0000; //<- Elipse parameter a.
-  // alt_32 elipse_b = 0x0000; //<- Elipse parameter b.
-
-  // alt_32 sincos, sin, cos;
-
-  // alt_32 coord_x, coord_y;
-
-  unsigned int val = 0;
   while(1) {
-    printf("Code letter a, ascii (%d)\n", ((int)'a' - 97));
-    val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
-    printf("%x\n", val);
-    printf("Code letter f, ascii (%d)\n", ((int)'f' - 97));
-    val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE + 1, 0);
-    printf("%x\n", val);
-    // // Get elipse parameters.
-    // elipse_a = IORD_32DIRECT(ELIPSE_A_IN_BASE, 0);
-    // elipse_b = IORD_32DIRECT(ELIPSE_B_IN_BASE, 0);
 
-    // if (angle_cordic > angle_last) {
-    //   angle_cordic = angle_first;
+    encode(sample);
+    print_encoded();
+
+    // for (i = 0; i < 63; ++i) {
+    //   coder_write(i);
     // }
 
-    // IOWR(CORDIC_PIPELINE_AVALON_INTERFACE_0_BASE, 0, (angle_cordic)); // Write the angle to cordic processor.
+    // for (i = 0; i < 10; ++i) {
+    //   printf("Read\n");
+    //   val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
+    //   printf("val(hex): %x\n", val);
+    // }
 
-    // sincos = IORD_32DIRECT(CORDIC_PIPELINE_AVALON_INTERFACE_0_BASE, 0);
-    // sin = sincos         & 0xfff; // bits 0-11
-    // cos = (sincos >> 16) & 0xfff; // bits 16-27
+    // printf("Test span, three zero one \n");
+    // IOWR(HUFFMAN_CODER_IP_0_BASE + 3, 0, 1);
 
-    // // Extend MSB (to get proper signed value)
-    // sin = (sin & (0x1 << 11)) ?
-    //       sin | (0xFFFFF << 12 ) :
-    //       sin;
+    // printf("Test finalize PIO - set to one\n");
+    // IOWR(PIO_FINALIZE_BASE, 0, 1);
 
-    // cos = (cos & (0x1 << 11)) ?
-    //       cos | (0xFFFFF << 12 ) :
-    //       cos;
+    // printf("(PIO) Code letter a, ascii (%d)\n", ((int)'a' - 97));
+    // val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
+    // printf("val(hex): %x\n", val);
 
-    // coord_x = elipse_a * cos;
-    // coord_y = elipse_b * sin;
+    // printf("Test finalize PIO - set back to zero\n");
+    // IOWR(PIO_FINALIZE_BASE, 0, 0);
 
-    // IOWR(ELIPSE_X_OUT_BASE, 0, (coord_x)); // Export x coordinate.
-    // IOWR(ELIPSE_Y_OUT_BASE, 0, (coord_y)); // Export y coordinate.
+    // printf("Code letter f, ascii (%d)\n", ((int)'f' - 97));
+    // val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 1);
+    // printf("val(hex): %x\n", val);
 
-    // angle_cordic += 64;
+    // printf("Code letter unknown\n");
+    // val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE + 1, 0);
+    // printf("val(hex): %x\n", val);
   }
 }

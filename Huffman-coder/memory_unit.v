@@ -16,11 +16,11 @@ output [11:0] data_out;
 reg [11:0] ram [63:0]; // ram 12 * 64
 reg [5:0] addr_reg;
 
-//initial
-//begin
-//	$display("Loading rom.");
-//   $readmemh("test_mem.mem", ram);
-//end
+initial
+begin
+	$display("Loading rom.");
+   $readmemh("test_mem.mem", ram);
+end
 
 always @( posedge clock )
 begin

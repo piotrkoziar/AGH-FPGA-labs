@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Sep 6, 2020 2:46:21 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1599396381554</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Sep 7, 2020 4:20:55 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1599488455434</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/media/piko/Seagate/AGH-FPGA-labs/Huffman-coder/Huffman_coder_system/software/bsp</BspGeneratedLocation>
         <BspSettingsFile>./settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../../Huffman_coder.sopcinfo</SopcDesignFile>
@@ -905,20 +905,38 @@
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_encoded_out</slaveDescriptor>
+                <slaveDescriptor>pio_data_length</slaveDescriptor>
                 <addressRange>0x00021000 - 0x0002100F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>pio_empty</slaveDescriptor>
+                <addressRange>0x00021010 - 0x0002101F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>pio_codetree</slaveDescriptor>
+                <addressRange>0x00021020 - 0x0002102F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>pio_finalize</slaveDescriptor>
+                <addressRange>0x00021030 - 0x0002103F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x00021010 - 0x00021017</addressRange>
+                <addressRange>0x00021040 - 0x00021047</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>Huffman_coder_ip_0</slaveDescriptor>
-                <addressRange>0x00021018 - 0x0002101B</addressRange>
+                <addressRange>0x00021048 - 0x0002104B</addressRange>
                 <addressSpan>4</addressSpan>
                 <attributes/>
         </MemoryMap>

@@ -13,6 +13,7 @@
 *.xrf
 *.tcl~
 *.csv
+*.spd
 Huffman-coder/Huffman_coder_system/software/bsp/*
 Huffman-coder/Huffman_coder_system/software/app/*
 Huffman-coder/Huffman_coder_system/testbench/*

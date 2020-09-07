@@ -4,8 +4,8 @@
 module FIFO_coder(data_out, fifo_full, fifo_empty, fifo_threshold, fifo_overflow, fifo_underflow, clk, rst_n, wr, rd, data_in);
 
 input wr, rd, clk, rst_n;
-input[31:0] data_in;   // FPGA projects using Verilog/ VHDL
-output[31:0] data_out;
+input [31:0] data_in;   // FPGA projects using Verilog/ VHDL
+output [31:0] data_out;
 output fifo_full, fifo_empty, fifo_threshold, fifo_overflow, fifo_underflow;
 
 wire [6:0] wptr, rptr;
