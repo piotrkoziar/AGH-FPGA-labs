@@ -45,7 +45,7 @@
    {
       datum baseAddress
       {
-         value = "135240";
+         value = "266296";
          type = "String";
       }
    }
@@ -69,7 +69,7 @@
    {
       datum baseAddress
       {
-         value = "135232";
+         value = "266288";
          type = "String";
       }
    }
@@ -85,7 +85,7 @@
    {
       datum baseAddress
       {
-         value = "133120";
+         value = "264192";
          type = "String";
       }
    }
@@ -101,43 +101,11 @@
    {
       datum baseAddress
       {
-         value = "65536";
+         value = "131072";
          type = "String";
       }
    }
-   element pio_codetree
-   {
-      datum _sortIndex
-      {
-         value = "6";
-         type = "int";
-      }
-   }
-   element pio_codetree.s1
-   {
-      datum baseAddress
-      {
-         value = "135200";
-         type = "String";
-      }
-   }
-   element pio_data_length
-   {
-      datum _sortIndex
-      {
-         value = "8";
-         type = "int";
-      }
-   }
-   element pio_data_length.s1
-   {
-      datum baseAddress
-      {
-         value = "135168";
-         type = "String";
-      }
-   }
-   element pio_empty
+   element pio_access_mode
    {
       datum _sortIndex
       {
@@ -145,11 +113,27 @@
          type = "int";
       }
    }
+   element pio_access_mode.s1
+   {
+      datum baseAddress
+      {
+         value = "266240";
+         type = "String";
+      }
+   }
+   element pio_empty
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
    element pio_empty.s1
    {
       datum baseAddress
       {
-         value = "135184";
+         value = "266256";
          type = "String";
       }
    }
@@ -165,7 +149,7 @@
    {
       datum baseAddress
       {
-         value = "135216";
+         value = "266272";
          type = "String";
       }
    }
@@ -243,10 +227,10 @@
   <parameter name="customInstSlavesSystemInfo_nios_a" value="&lt;info/&gt;" />
   <parameter name="customInstSlavesSystemInfo_nios_b" value="&lt;info/&gt;" />
   <parameter name="customInstSlavesSystemInfo_nios_c" value="&lt;info/&gt;" />
-  <parameter name="dataAddrWidth" value="18" />
+  <parameter name="dataAddrWidth" value="19" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x10000' end='0x20000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x20800' end='0x21000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='pio_data_length.s1' start='0x21000' end='0x21010' type='altera_avalon_pio.s1' /><slave name='pio_empty.s1' start='0x21010' end='0x21020' type='altera_avalon_pio.s1' /><slave name='pio_codetree.s1' start='0x21020' end='0x21030' type='altera_avalon_pio.s1' /><slave name='pio_finalize.s1' start='0x21030' end='0x21040' type='altera_avalon_pio.s1' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x21040' end='0x21048' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='Huffman_coder_ip_0.avalon_slave_0' start='0x21048' end='0x2104C' type='Huffman_coder_ip.avalon_slave_0' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x20000' end='0x31388' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x40800' end='0x41000' type='altera_nios2_gen2.debug_mem_slave' /><slave name='pio_access_mode.s1' start='0x41000' end='0x41010' type='altera_avalon_pio.s1' /><slave name='pio_empty.s1' start='0x41010' end='0x41020' type='altera_avalon_pio.s1' /><slave name='pio_finalize.s1' start='0x41020' end='0x41030' type='altera_avalon_pio.s1' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x41030' end='0x41038' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='Huffman_coder_ip_0.avalon_slave_0' start='0x41038' end='0x4103C' type='Huffman_coder_ip.avalon_slave_0' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -284,8 +268,8 @@
   <parameter name="icache_size" value="4096" />
   <parameter name="icache_tagramBlockType" value="Automatic" />
   <parameter name="impl" value="Tiny" />
-  <parameter name="instAddrWidth" value="18" />
-  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x10000' end='0x20000' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x20800' end='0x21000' type='altera_nios2_gen2.debug_mem_slave' /></address-map>]]></parameter>
+  <parameter name="instAddrWidth" value="19" />
+  <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='onchip_memory2_0.s1' start='0x20000' end='0x31388' type='altera_avalon_onchip_memory2.s1' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x40800' end='0x41000' type='altera_nios2_gen2.debug_mem_slave' /></address-map>]]></parameter>
   <parameter name="instructionMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="instructionMasterHighPerformanceMapParam" value="" />
   <parameter name="instruction_master_high_performance_paddr_base" value="0" />
@@ -424,7 +408,7 @@
   <parameter name="initMemContent" value="true" />
   <parameter name="initializationFileName">/media/piko/Seagate/AGH-FPGA-labs/Huffman-coder/Huffman_coder_system/software/app/mem_init/Huffman_coder_onchip_memory2_0.hex</parameter>
   <parameter name="instanceID" value="NONE" />
-  <parameter name="memorySize" value="65536" />
+  <parameter name="memorySize" value="70536" />
   <parameter name="readDuringWriteMode" value="DONT_CARE" />
   <parameter name="resetrequest_enabled" value="true" />
   <parameter name="simAllowMRAMContentsFile" value="false" />
@@ -437,25 +421,7 @@
   <parameter name="writable" value="true" />
  </module>
  <module
-   name="pio_codetree"
-   kind="altera_avalon_pio"
-   version="20.1"
-   enabled="1">
-  <parameter name="bitClearingEdgeCapReg" value="false" />
-  <parameter name="bitModifyingOutReg" value="false" />
-  <parameter name="captureEdge" value="false" />
-  <parameter name="clockRate" value="50000000" />
-  <parameter name="direction" value="Output" />
-  <parameter name="edgeType" value="RISING" />
-  <parameter name="generateIRQ" value="false" />
-  <parameter name="irqType" value="LEVEL" />
-  <parameter name="resetValue" value="0" />
-  <parameter name="simDoTestBenchWiring" value="false" />
-  <parameter name="simDrivenValue" value="0" />
-  <parameter name="width" value="1" />
- </module>
- <module
-   name="pio_data_length"
+   name="pio_access_mode"
    kind="altera_avalon_pio"
    version="20.1"
    enabled="1">
@@ -510,7 +476,7 @@
    start="nios2_gen2_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00021040" />
+  <parameter name="baseAddress" value="0x00041030" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -519,7 +485,7 @@
    start="nios2_gen2_0.data_master"
    end="Huffman_coder_ip_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00021048" />
+  <parameter name="baseAddress" value="0x00041038" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -528,7 +494,7 @@
    start="nios2_gen2_0.data_master"
    end="nios2_gen2_0.debug_mem_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00020800" />
+  <parameter name="baseAddress" value="0x00040800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -537,7 +503,7 @@
    start="nios2_gen2_0.data_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00010000" />
+  <parameter name="baseAddress" value="0x00020000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -546,16 +512,7 @@
    start="nios2_gen2_0.data_master"
    end="pio_finalize.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00021030" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
-   kind="avalon"
-   version="20.1"
-   start="nios2_gen2_0.data_master"
-   end="pio_codetree.s1">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00021020" />
+  <parameter name="baseAddress" value="0x00041020" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -564,16 +521,16 @@
    start="nios2_gen2_0.data_master"
    end="pio_empty.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00021010" />
+  <parameter name="baseAddress" value="0x00041010" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
    kind="avalon"
    version="20.1"
    start="nios2_gen2_0.data_master"
-   end="pio_data_length.s1">
+   end="pio_access_mode.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00021000" />
+  <parameter name="baseAddress" value="0x00041000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -582,7 +539,7 @@
    start="nios2_gen2_0.instruction_master"
    end="nios2_gen2_0.debug_mem_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00020800" />
+  <parameter name="baseAddress" value="0x00040800" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -591,19 +548,18 @@
    start="nios2_gen2_0.instruction_master"
    end="onchip_memory2_0.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x00010000" />
+  <parameter name="baseAddress" value="0x00020000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection kind="clock" version="20.1" start="clk_0.clk" end="nios2_gen2_0.clk" />
  <connection kind="clock" version="20.1" start="clk_0.clk" end="jtag_uart_0.clk" />
  <connection kind="clock" version="20.1" start="clk_0.clk" end="pio_finalize.clk" />
- <connection kind="clock" version="20.1" start="clk_0.clk" end="pio_codetree.clk" />
  <connection kind="clock" version="20.1" start="clk_0.clk" end="pio_empty.clk" />
  <connection
    kind="clock"
    version="20.1"
    start="clk_0.clk"
-   end="pio_data_length.clk" />
+   end="pio_access_mode.clk" />
  <connection
    kind="clock"
    version="20.1"
@@ -617,30 +573,19 @@
  <connection
    kind="conduit"
    version="20.1"
-   start="Huffman_coder_ip_0.con_codetree"
-   end="pio_codetree.external_connection">
-  <parameter name="endPort" value="" />
-  <parameter name="endPortLSB" value="0" />
-  <parameter name="startPort" value="" />
-  <parameter name="startPortLSB" value="0" />
-  <parameter name="width" value="0" />
- </connection>
- <connection
-   kind="conduit"
-   version="20.1"
-   start="Huffman_coder_ip_0.con_data_length"
-   end="pio_data_length.external_connection">
-  <parameter name="endPort" value="" />
-  <parameter name="endPortLSB" value="0" />
-  <parameter name="startPort" value="" />
-  <parameter name="startPortLSB" value="0" />
-  <parameter name="width" value="0" />
- </connection>
- <connection
-   kind="conduit"
-   version="20.1"
    start="Huffman_coder_ip_0.con_finalize"
    end="pio_finalize.external_connection">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="20.1"
+   start="pio_access_mode.external_connection"
+   end="Huffman_coder_ip_0.con_access_mode">
   <parameter name="endPort" value="" />
   <parameter name="endPortLSB" value="0" />
   <parameter name="startPort" value="" />
@@ -689,17 +634,12 @@
    kind="reset"
    version="20.1"
    start="clk_0.clk_reset"
-   end="pio_codetree.reset" />
- <connection
-   kind="reset"
-   version="20.1"
-   start="clk_0.clk_reset"
    end="pio_empty.reset" />
  <connection
    kind="reset"
    version="20.1"
    start="clk_0.clk_reset"
-   end="pio_data_length.reset" />
+   end="pio_access_mode.reset" />
  <connection
    kind="reset"
    version="20.1"

@@ -127,12 +127,18 @@ module DE10_LITE_Golden_Top(
 //  REG/WIRE declarations
 //=======================================================
 
-wire [31:0] to_HEX;
+reg [31:0] to_HEX;
 
 
 //=======================================================
 //  Structural coding
 //=======================================================
+
+always @(posedge KEY[1]) 
+begin 
+	to_HEX[1] <= to_HEX[1]^1;
+end
+
 
  Huffman_coder u0 (
 	  .clk_clk        (MAX10_CLK1_50), 	//        clk.clk

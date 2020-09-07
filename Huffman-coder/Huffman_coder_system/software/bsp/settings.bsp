@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Sep 7, 2020 4:20:55 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1599488455434</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Sep 7, 2020 10:26:30 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1599510390659</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/media/piko/Seagate/AGH-FPGA-labs/Huffman-coder/Huffman_coder_system/software/bsp</BspGeneratedLocation>
         <BspSettingsFile>./settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../../Huffman_coder.sopcinfo</SopcDesignFile>
@@ -734,7 +734,7 @@
                 <SettingName>hal.enable_small_c_library</SettingName>
                 <Identifier>none</Identifier>
                 <Type>Boolean</Type>
-                <Value>0</Value>
+                <Value>1</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>public_mk_define</DestinationFile>
                 <Description>Causes the small newlib (C library) to be used. This reduces code and data footprint at the expense of reduced functionality. Several newlib features are removed such as floating-point support in printf(), stdin input routines, and buffered I/O. The small C library is not compatible with Micrium MicroC/OS-II. If true, adds -msmallc to ALT_LDFLAGS in public.mk.</Description>
@@ -900,43 +900,37 @@
         </Setting>
         <MemoryMap>
                 <slaveDescriptor>onchip_memory2_0</slaveDescriptor>
-                <addressRange>0x00010000 - 0x0001FFFF</addressRange>
-                <addressSpan>65536</addressSpan>
+                <addressRange>0x00020000 - 0x00031387</addressRange>
+                <addressSpan>70536</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_data_length</slaveDescriptor>
-                <addressRange>0x00021000 - 0x0002100F</addressRange>
+                <slaveDescriptor>pio_access_mode</slaveDescriptor>
+                <addressRange>0x00041000 - 0x0004100F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>pio_empty</slaveDescriptor>
-                <addressRange>0x00021010 - 0x0002101F</addressRange>
-                <addressSpan>16</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>pio_codetree</slaveDescriptor>
-                <addressRange>0x00021020 - 0x0002102F</addressRange>
+                <addressRange>0x00041010 - 0x0004101F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>pio_finalize</slaveDescriptor>
-                <addressRange>0x00021030 - 0x0002103F</addressRange>
+                <addressRange>0x00041020 - 0x0004102F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>jtag_uart_0</slaveDescriptor>
-                <addressRange>0x00021040 - 0x00021047</addressRange>
+                <addressRange>0x00041030 - 0x00041037</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>Huffman_coder_ip_0</slaveDescriptor>
-                <addressRange>0x00021048 - 0x0002104B</addressRange>
+                <addressRange>0x00041038 - 0x0004103B</addressRange>
                 <addressSpan>4</addressSpan>
                 <attributes/>
         </MemoryMap>

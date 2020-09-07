@@ -11,6 +11,17 @@
 
 static bool finalized = false; // set to 1 when we are sure that there is nothing left for read.
 
+static void coder_write_tree(const uint8_t addr, const uint8_t code, const uint8_t codelen) {
+  if (codelen > 8) {return;}
+  if (addr > 63) {return;}
+
+  uint16_t code_value = (codelen | (code << 4)); // 12 bits is stored in LUT: 4 last bits is for code length.
+  uint32_t value = (addr | (code_value << 6));
+  IOWR(PIO_ACCESS_MODE_BASE, 0, 1);
+  IOWR(HUFFMAN_CODER_IP_0_BASE, 0, value);
+  IOWR(PIO_ACCESS_MODE_BASE, 0, 0);
+}
+
 static int coder_write(uint8_t addr) {
   // TODO: check if full.
 
@@ -28,11 +39,11 @@ static void coder_read(uint32_t *encoded_output, uint8_t *encoded_length) {
 
   if (IORD(PIO_EMPTY_BASE, 0)) { // is fifo empty?
 
-    IOWR(PIO_DATA_LENGTH_BASE, 0, 1);
+    IOWR(PIO_ACCESS_MODE_BASE, 0, 1);
     *encoded_length = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
-    IOWR(PIO_DATA_LENGTH_BASE, 0, 0);
+    IOWR(PIO_ACCESS_MODE_BASE, 0, 0);
 
-    printf("DEBUG: encoded_length = %d\n", *encoded_length);
+    // printf("DEBUG: encoded_length = %d\n", *encoded_length);
     if (*encoded_length > 0) { // is anything to get with finalize?
       // finalize
       IOWR(PIO_FINALIZE_BASE, 0, 1);
@@ -90,40 +101,27 @@ const char *sample2 = "abc";
 int main() {
   printf("HELLO FROM NIOS II PROCESSOR PROGRAM\n");
 
-  while(1) {
+  coder_write_tree(('T' - ASCII_NORMALIZATION), 0x2, 3);  // 010
+  coder_write_tree(('o' - ASCII_NORMALIZATION), 0x1, 3);  // 001
+  coder_write_tree(('M' - ASCII_NORMALIZATION), 0x1a, 5); // 11010
+  coder_write_tree(('u' - ASCII_NORMALIZATION), 0xe, 3);  // 11110
+  coder_write_tree(('s' - ASCII_NORMALIZATION), 0xa, 4);  // 1010
+  coder_write_tree(('i' - ASCII_NORMALIZATION), 0x7, 4);  // 0111
+  coder_write_tree(('B' - ASCII_NORMALIZATION), 0xf, 3);  // 111
+  coder_write_tree(('y' - ASCII_NORMALIZATION), 0x6, 4);  // 0110
+  coder_write_tree(('c' - ASCII_NORMALIZATION), 0xf, 3);  // 111
+  coder_write_tree(('Z' - ASCII_NORMALIZATION), 0x1b, 5); // 11011
+  coder_write_tree(('a' - ASCII_NORMALIZATION), 0x0f, 5); // 01111
+  coder_write_tree(('k' - ASCII_NORMALIZATION), 0x10, 5); // 10000
+  coder_write_tree(('d' - ASCII_NORMALIZATION), 0x1c, 5); // 11100
+  coder_write_tree(('w' - ASCII_NORMALIZATION), 0x3b, 6); // 111011
+  coder_write_tree(('n' - ASCII_NORMALIZATION), 0x11, 5); // 10001
+  coder_write_tree(('e' - ASCII_NORMALIZATION), 0x12, 5); // 10010
 
+  // final length = 79
+
+  while(1) {
     encode(sample);
     print_encoded();
-
-    // for (i = 0; i < 63; ++i) {
-    //   coder_write(i);
-    // }
-
-    // for (i = 0; i < 10; ++i) {
-    //   printf("Read\n");
-    //   val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
-    //   printf("val(hex): %x\n", val);
-    // }
-
-    // printf("Test span, three zero one \n");
-    // IOWR(HUFFMAN_CODER_IP_0_BASE + 3, 0, 1);
-
-    // printf("Test finalize PIO - set to one\n");
-    // IOWR(PIO_FINALIZE_BASE, 0, 1);
-
-    // printf("(PIO) Code letter a, ascii (%d)\n", ((int)'a' - 97));
-    // val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 0);
-    // printf("val(hex): %x\n", val);
-
-    // printf("Test finalize PIO - set back to zero\n");
-    // IOWR(PIO_FINALIZE_BASE, 0, 0);
-
-    // printf("Code letter f, ascii (%d)\n", ((int)'f' - 97));
-    // val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE, 1);
-    // printf("val(hex): %x\n", val);
-
-    // printf("Code letter unknown\n");
-    // val = IORD_32DIRECT(HUFFMAN_CODER_IP_0_BASE + 1, 0);
-    // printf("val(hex): %x\n", val);
   }
 }
